@@ -2,7 +2,7 @@
 
 import React, {ReactNode} from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
-import { PageControllerButton } from './SubComponents';
+import { PageControllerButton, PageNumberButton } from './SubComponents';
 import { pageSize } from '@/app/constant/pagination';
 
 interface PaginationProps {
@@ -10,10 +10,11 @@ interface PaginationProps {
   total: number;               // Total number of items - companies
   pageSize: number;          // Number of items on a single page
   onPageChange: (page: number) => void; // Callback to handle page changes
+  className?: string;
 }
 
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, total, pageSize, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({ currentPage, total, pageSize, onPageChange, className }) => {
   const handlePrevious = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
@@ -34,9 +35,9 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, total, pageSize, o
     const pages = [];
     for (let i = 1; i <= totalPages; i++) {
       pages.push(
-        <PageControllerButton key={i} onClick={() => handlePageClick(i)} isCurrent={i === currentPage}>
+        <PageNumberButton key={i} onClick={() => handlePageClick(i)} isCurrent={i === currentPage}>
           {i}
-        </PageControllerButton>
+        </PageNumberButton>
       );
     }
     return pages;
@@ -44,15 +45,19 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, total, pageSize, o
 
   const totalPages = Math.ceil(total / pageSize);
   return (
-    <div className="flex items-center justify-between border-t border-gray-200 bg-white py-3">
+    <div className={`flex items-center justify-between border-t border-gray-200 bg-white py-3 ${className}`}>
       {/* Mobile pagination buttons */}
       <div className="flex flex-1 justify-between sm:hidden">
         <button
+          disabled={currentPage === 1}
+          onClick={handlePrevious}
           className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Previous
         </button>
         <button
+          disabled={currentPage === totalPages}
+          onClick={handleNext}
           className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Next
@@ -62,7 +67,9 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, total, pageSize, o
         {/* Info text about from which index is showing currently */}
         <div>
           <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">{(currentPage - 1) * pageSize + 1}</span> to <span className="font-medium">{(currentPage - 1) * pageSize + 10}</span> of{' '}
+            Showing{' '}
+            <span className="font-medium">{(currentPage - 1) * pageSize + 1}</span> to{' '}
+            <span className="font-medium">{Math.min((currentPage - 1) * pageSize + 10, total)}</span> of{' '}
             <span className="font-medium">{total}</span> results
           </p>
         </div>

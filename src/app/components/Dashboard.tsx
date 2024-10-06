@@ -7,6 +7,7 @@ import { pageSize } from '../constant/pagination';
 import { useRouter } from 'next/navigation';
 import type { Company } from '@/types/company';
 import Spinner from './Spinner';
+import Navbar from './Navbar';
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -14,6 +15,7 @@ const Dashboard = () => {
   const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalNumer, setTotalNumber] = useState<number>(0);
+  const [isRemoving, setIsRemoving] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -50,25 +52,43 @@ const Dashboard = () => {
     );
   };
 
+  const handleRemove = () => {
+    const confirmed = confirm(`Are you sure want to delete the ${selectedCompanies.length} companies you selected?`);
+    if (confirmed) {
+      setIsRemoving(true);
+      // This should be replaced to the real logic to remove the companies selected
+      setTimeout(() => {
+        setIsRemoving(false);
+        setSelectedCompanies([]);
+      }, 500);
+    }
+  }
+
   return (
     <div>
-      {isLoading? (<Spinner />) : (<ul role="list" className="divide-y divide-gray-100">
-        {companies.map((company) => <CompanyCard
-          key={company.id}
-          {...company}
-          isSelected={selectedCompanies.includes(company.id)}
-          onSelect={handleSelectCompany}
-        />)}
-      </ul>)}
-      {/* Pagination bar */}
-      <Pagination
-        currentPage={currentPage}
-        total={totalNumer}
-        pageSize={pageSize}
-        onPageChange={(page) => setCurrentPage(page)}
-      />
+      <Navbar isRemoving={isRemoving} isRemoveDisabled={selectedCompanies.length === 0} onRemove={handleRemove} />
+      <main className="grid justify-items-center min-h-screen p-8 pb-20 sm:px-20 flex items-center sm:items-start">
+        <div>
+          {isLoading? (<Spinner />) : (<ul role="list" className="divide-y divide-gray-100">
+            {companies.map((company) => <CompanyCard
+              key={company.id}
+              {...company}
+              isSelected={selectedCompanies.includes(company.id)}
+              onSelect={handleSelectCompany}
+            />)}
+          </ul>)}
+          {/* Pagination bar */}
+          <Pagination
+            currentPage={currentPage}
+            total={totalNumer}
+            pageSize={pageSize}
+            onPageChange={(page) => setCurrentPage(page)}
+            className="pt-5"
+          />
+        </div>
+      </main>
     </div>
-  )
+  );
 }
 
 export default Dashboard;
