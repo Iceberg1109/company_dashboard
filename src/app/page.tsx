@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Companies from "./components/Companies";
+import Companies from "./components/Dashboard";
 
 export default function Home() {
   return (

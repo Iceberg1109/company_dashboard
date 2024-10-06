@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { Company } from '@/types/company';
 import { logos} from '@/app/constant/company_logos';
+import type { Company } from '@/types/company';
 
 export async function GET() {
   const companies: Company[] = [
@@ -18,10 +18,10 @@ export async function GET() {
     },
   ];
 
-  for (let i = 0; i < 100; i ++) {
+  for (let i = 1; i < 100; i ++) {
     companies.push({
       id: i.toString(),
-      name: `Company i${i}`,
+      name: `Company ${i}`,
       email: `company_${i}@minimi.com`,
     });
   }
