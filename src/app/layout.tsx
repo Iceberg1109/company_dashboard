@@ -9,6 +9,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>Minimi dashboard</title>
+        <link rel="icon" href="/icons/favicon.ico" type="image/x-icon" />
+      </head>
       <body>
         {children}
       </body>
