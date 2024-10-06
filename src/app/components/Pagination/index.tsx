@@ -1,9 +1,8 @@
 'use client';
 
-import React, {ReactNode} from 'react';
+import React from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import { PageControllerButton, PageNumberButton } from './SubComponents';
-import { pageSize } from '@/app/constant/pagination';
 
 interface PaginationProps {
   currentPage: number;         // Current page number

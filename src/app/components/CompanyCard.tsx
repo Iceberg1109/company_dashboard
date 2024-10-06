@@ -27,7 +27,7 @@ const CompanyCard : React.FC<CompanyCardProps> = ({
         />
       </div>
       <div className="flex flex-1 min-w-0 gap-x-4">
-        <img alt="" src={logoUrl ?? defaultLogo} className="h-12 w-12 flex-none object-contain rounded-full bg-cyan-400" />
+        <img alt={`${name} logo`} src={logoUrl ?? defaultLogo} className="h-12 w-12 flex-none object-contain rounded-full bg-cyan-400" />
         <div className="min-w-0 flex-auto">
           <p className="text-sm font-semibold leading-6 text-gray-900">{name}</p>
           <p className="mt-1 truncate text-xs leading-5 text-gray-500">{email}</p>
