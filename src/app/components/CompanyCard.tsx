@@ -3,10 +3,11 @@ import type { Company } from '../../types/company';
 
 type CompanyCardProps = Company & {
   isSelected?: boolean,
-  onSelect?: (companyId: string) => void;
+  onSelect: (companyId: string) => void;
 };
 
 const CompanyCard : React.FC<CompanyCardProps> = ({
+  id,
   name,
   email,
   logoUrl,
@@ -16,11 +17,12 @@ const CompanyCard : React.FC<CompanyCardProps> = ({
   const defaultLogo = "/default.png";
 
   return (
-    <li className="flex justify-between gap-x-6 py-5">
+    <li className="flex justify-between gap-x-6 py-3">
       <div className="flex items-center">
         <input
           type="checkbox"
           checked={isSelected}
+          onChange={() => onSelect(id)}
           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
         />
       </div>
